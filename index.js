@@ -50,7 +50,7 @@ async function run(protocol, port) {
 
   let log = path.join(workingDir, "./cf.log");
 
-  await exec.exec("sh", [], { input: `${ngrok} tunnel --url ${protocol}://localhost:${port} >$ng_temp_1 2>&1 &` });
+  await exec.exec("sh", [], { input: `${ngrok} tunnel --url ${protocol}://localhost:${port} >${log} 2>&1 &` });
 
   await sleep(5000);
 
