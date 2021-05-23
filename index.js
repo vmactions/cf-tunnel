@@ -40,7 +40,7 @@ async function download() {
 
 }
 
-async function run(token, protocol, port) {
+async function run(protocol, port) {
   let workingDir = __dirname;
 
   let ngrok = path.join(workingDir, "./cloudflared")
@@ -91,15 +91,9 @@ async function main() {
   }
 
 
-  var envs = core.getInput("envs");
-  console.log("envs:" + envs);
-  if (envs) {
-    fs.appendFileSync(path.join(process.env["HOME"], "/.ssh/config"), "SendEnv " + envs + "\n");
-  }
-
   await download();
 
-  await run(token, protocol, port);
+  await run(protocol, port);
 
 
   process.exit();
