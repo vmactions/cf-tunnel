@@ -19,10 +19,12 @@ async function download() {
 
 
   let link = NGROK_Win;
+  let ext = "zip";
   if (os.platform() == "darwin") {
     link = NGROK_MAC;
   } else if (os.platform() == "linux") {
     link = NGROK_Linux;
+    ext = "tgz";
   }
 
 
@@ -31,12 +33,16 @@ async function download() {
     core.info("Downloading: " + link);
     let img = await tc.downloadTool(link);
     core.info("Downloaded file: " + img);
-    await io.mv(img, path.join(workingDir, "./cf.tgz"));
-
+    await io.mv(img, path.join(workingDir, "./cf." + ext));
   }
 
-  await exec.exec("tar -xzf " + path.join(workingDir, "./cf.tgz"));
-
+  if (ext === "tgz") {
+    await exec.exec("tar -xzf " + path.join(workingDir, "./cf." + ext));
+  } else if (link === NGROK_MAC) {
+    await exec.exec("7za e -y " + path.join(workingDir, "./cf." + ext));
+  } else {
+    await exec.exec("unzip " + path.join(workingDir, "./cf." + ext));
+  }
 
 }
 
@@ -66,8 +72,7 @@ async function run(protocol, port) {
     }
   });
 
-  let lines = output.split('//');
-  let server = lines[lines.length - 1];
+  let server = output;//lines[lines.length - 1];
   core.info("server: " + server);
   core.setOutput("server", server);
 
