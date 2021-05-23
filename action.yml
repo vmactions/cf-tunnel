@@ -1,0 +1,21 @@
+name: 'cf-tunnel'
+description: 'Run establish a cloudflare tunnel'
+inputs:
+  protocol:
+    description: 'tcp or http'
+    required: false
+  port:
+    description: 'port to forward to'
+    required: true
+outputs:
+  server:
+    description: 'The server'
+
+
+branding:
+  icon: 'activity'  
+  color: 'green'
+
+runs:
+  using: 'node12'
+  main: 'index.js'
