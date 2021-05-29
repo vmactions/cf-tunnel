@@ -55,27 +55,34 @@ async function run(protocol, port) {
     ngrok += ".exe";
   }
 
+  await exec.exec("sh", [], { input: `${ngrok} update` });
+
   let log = path.join(workingDir, "./cf.log");
 
   await exec.exec("sh", [], { input: `${ngrok} tunnel --url ${protocol}://localhost:${port} >${log} 2>&1 &` });
 
-  await sleep(5000);
 
-
-  let output = "";
-  await exec.exec("sh", [], {
-    input: `cat "${log}" | grep https:// | grep trycloudflare.com | head -1 | cut -d '|' -f 2 | tr -d ' ' | cut -d '/' -f 3`,
-    listeners: {
-      stdout: (s) => {
-        output += s;
-        core.info(s);
+  for (let i = 0; i < 10; i++) {
+    await sleep(5000);
+    let output = "";
+    await exec.exec("sh", [], {
+      input: `cat "${log}" | grep https:// | grep trycloudflare.com | head -1 | cut -d '|' -f 2 | tr -d ' ' | cut -d '/' -f 3`,
+      listeners: {
+        stdout: (s) => {
+          output += s;
+          core.info(s);
+        }
       }
+    });
+    if (!server) {
+      continue;
     }
-  });
+    let server = output;//lines[lines.length - 1];
+    core.info("server: " + server);
+    core.setOutput("server", server);
+    break;
+  }
 
-  let server = output;//lines[lines.length - 1];
-  core.info("server: " + server);
-  core.setOutput("server", server);
 
 }
 
