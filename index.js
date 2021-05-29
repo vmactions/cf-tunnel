@@ -74,10 +74,10 @@ async function run(protocol, port) {
         }
       }
     });
+    let server = output;//lines[lines.length - 1];
     if (!server) {
       continue;
     }
-    let server = output;//lines[lines.length - 1];
     core.info("server: " + server);
     core.setOutput("server", server);
     break;
