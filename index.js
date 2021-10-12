@@ -13,18 +13,18 @@ async function sleep(ms) {
 
 
 async function download() {
-  NGROK_MAC = "https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-darwin-amd64.zip"
-  NGROK_Linux = "https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-linux-amd64.tgz"
-  NGROK_Win = "https://bin.equinox.io/c/VdrWdbjqyF/cloudflared-stable-windows-amd64.zip"
+  NGROK_MAC = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-darwin-amd64.tgz"
+  NGROK_Linux = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
+  NGROK_Win = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe"
 
 
   let link = NGROK_Win;
-  let ext = "zip";
+  let ext = "";
   if (os.platform() == "darwin") {
     link = NGROK_MAC;
+    ext = "tgz";
   } else if (os.platform() == "linux") {
     link = NGROK_Linux;
-    ext = "tgz";
   }
 
 
@@ -33,17 +33,30 @@ async function download() {
     core.info("Downloading: " + link);
     let img = await tc.downloadTool(link);
     core.info("Downloaded file: " + img);
-    await io.mv(img, path.join(workingDir, "./cf." + ext));
+    
+    if (os.platform() == "darwin") {
+      await io.mv(img, path.join(workingDir, "./cf." + ext));
+      await exec.exec("tar -xzf " + path.join(workingDir, "./cf." + ext));
+      await io.mv("cloudflared", path.join(workingDir, "cloudflared"));
+    } else if (os.platform() == "linux") {
+      await io.mv(img, path.join(workingDir, "./cloudflared"));
+      await exec.exec("sh", [], { input: "chmod +x " +  path.join(workingDir, "./cloudflared")});
+    } else {
+      await io.mv(img, path.join(workingDir, "./cloudflared.exe"));
+    }
+  
+  
+
   }
 
-  if (ext === "tgz") {
-    await exec.exec("tar -xzf " + path.join(workingDir, "./cf." + ext));
-    await io.mv("cloudflared", path.join(workingDir, "cloudflared"));
-  } else if (link === NGROK_MAC) {
-    await exec.exec("7za e -y " + path.join(workingDir, "./cf." + ext) + "  -o" + workingDir);
-  } else {
-    await exec.exec("unzip " + path.join(workingDir, "./cf." + ext) + "  -d " + workingDir);
-  }
+#  if (ext === "tgz") {
+#    await exec.exec("tar -xzf " + path.join(workingDir, "./cf." + ext));
+#    await io.mv("cloudflared", path.join(workingDir, "cloudflared"));
+#  } else if (link === NGROK_MAC) {
+#    await exec.exec("7za e -y " + path.join(workingDir, "./cf." + ext) + "  -o" + workingDir);
+#  } else {
+#    await exec.exec("unzip " + path.join(workingDir, "./cf." + ext) + "  -d " + workingDir);
+#  }
 
 }
 
