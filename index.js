@@ -49,14 +49,14 @@ async function download() {
 
   }
 
-#  if (ext === "tgz") {
-#    await exec.exec("tar -xzf " + path.join(workingDir, "./cf." + ext));
-#    await io.mv("cloudflared", path.join(workingDir, "cloudflared"));
-#  } else if (link === NGROK_MAC) {
-#    await exec.exec("7za e -y " + path.join(workingDir, "./cf." + ext) + "  -o" + workingDir);
-#  } else {
-#    await exec.exec("unzip " + path.join(workingDir, "./cf." + ext) + "  -d " + workingDir);
-#  }
+//  if (ext === "tgz") {
+//    await exec.exec("tar -xzf " + path.join(workingDir, "./cf." + ext));
+//    await io.mv("cloudflared", path.join(workingDir, "cloudflared"));
+//  } else if (link === NGROK_MAC) {
+//    await exec.exec("7za e -y " + path.join(workingDir, "./cf." + ext) + "  -o" + workingDir);
+//  } else {
+//    await exec.exec("unzip " + path.join(workingDir, "./cf." + ext) + "  -d " + workingDir);
+//  }
 
 }
 
