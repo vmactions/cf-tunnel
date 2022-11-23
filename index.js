@@ -92,7 +92,8 @@ async function run(protocol, port) {
       continue;
     }
     core.info("server: " + server);
-    core.setOutput("server", server);
+    await exec.exec("sh", [], { input: `echo "server=${server}" >> $GITHUB_OUTPUT` });
+
     break;
   }
 

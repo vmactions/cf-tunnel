@@ -15,4 +15,4 @@ jobs:
         protocol: tcp
         port: 22
     - name: sleep
-      run: sleep 300
+      run: sleep 30
