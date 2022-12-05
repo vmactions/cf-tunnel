@@ -13,9 +13,9 @@ async function sleep(ms) {
 
 
 async function download() {
-  NGROK_MAC = "https://github.com/cloudflare/cloudflared/releases/download/2022.10.3/cloudflared-darwin-amd64.tgz"
-  NGROK_Linux = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64"
-  NGROK_Win = "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-windows-amd64.exe"
+  NGROK_MAC   = "https://github.com/cloudflare/cloudflared/releases/download/2022.10.3/cloudflared-darwin-amd64.tgz"
+  NGROK_Linux = "https://github.com/cloudflare/cloudflared/releases/download/2022.10.3/cloudflared-linux-amd64"
+  NGROK_Win   = "https://github.com/cloudflare/cloudflared/releases/download/2022.10.3/cloudflared-windows-amd64.exe"
 
 
   let link = NGROK_Win;
