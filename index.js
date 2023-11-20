@@ -92,11 +92,7 @@ async function run(protocol, port) {
       continue;
     }
     core.info("server: " + server);
-    if (protocol === "http") {
-      await exec.exec("sh", [], { input: `echo "server= http://${server}" >> $GITHUB_OUTPUT` });
-    } else {
-      await exec.exec("sh", [], { input: `echo "server=${server}" >> $GITHUB_OUTPUT` });
-    }
+    await exec.exec("sh", [], { input: `echo "server=${server}" >> $GITHUB_OUTPUT` });
 
     break;
   }
