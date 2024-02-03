@@ -14,7 +14,7 @@ jobs:
     runs-on: macos-latest
     name: Test a cf tunnel
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Run establish a cf tunnel
       id: test
       uses: vmactions/cf-tunnel@v0
