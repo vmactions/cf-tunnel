@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Run establish a cf tunnel
       id: test
-      uses: vmactions/cf-tunnel@v0.0.1
+      uses: vmactions/cf-tunnel@v0
       with:
         protocol: tcp
         port: 22
