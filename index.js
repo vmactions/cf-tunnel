@@ -63,17 +63,15 @@ async function download() {
 async function run(protocol, port) {
   let workingDir = __dirname;
 
-  let cfd = path.join(workingDir, "./cloudflared")
+  let cfd = path.join(workingDir, "./cloudflared");
+  let log = path.join(workingDir, "./cf.log");
   if (os.platform() == "win32") {
     cfd += ".exe";
     cfd = cfd.replace(/^(\w):|\\+/g,'/$1');
+    log = log.replace(/^(\w):|\\+/g,'/$1');
   }
 
   await exec.exec("sh", [], { input: `if ! ${cfd} update; then echo ok;fi` });
-
-  let log = path.join(workingDir, "./cf.log");
-  log = log.replace(/^(\w):|\\+/g,'/$1');
-
   await exec.exec("sh", [], { input: `${cfd} tunnel --url ${protocol}://localhost:${port} >${log} 2>&1 &` });
 
 
